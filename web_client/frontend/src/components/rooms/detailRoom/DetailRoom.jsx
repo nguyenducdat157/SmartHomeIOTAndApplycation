@@ -91,7 +91,7 @@ function DetailRoom(props) {
     )
       .then((res) => {
         console.log("resp ", res.data);
-        if (id === airCondition.id) {
+        if (airCondition && id === airCondition.id) {
           setAirCondition(res.data);
         } else {
           let tmp = lights.map((item) => item);
@@ -122,6 +122,7 @@ function DetailRoom(props) {
         }
       })
       .catch((err) => {
+        console.log(err);
         notification.error({
           message: "server has an error!",
           style: {
@@ -174,6 +175,7 @@ function DetailRoom(props) {
         }
       })
       .catch((err) => {
+        console.log(err);
         notification.error({
           message: "server has an error!",
           style: {

@@ -6,7 +6,10 @@ const moment = require('moment');
 const auth = require('../middlewares/auth');
 
 var client = mqtt.connect({
-	host: 'ithust.xyz',
+    host: 'broker.emqx.io',
+	protocol: 'mqtt',
+	topic: 'helo',
+	port: 1883
 });
 
 // get all
