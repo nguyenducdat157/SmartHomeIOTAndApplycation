@@ -12,7 +12,7 @@ const Home = lazy( () => import("routers/HomeRoute"));
 const Rooms = lazy( () => import("routers/RoomsRoute"));
 const Deveices = lazy( () => import("routers/DeveicesRoute"));
 const Profile = lazy( () => import("routers/ProfileRoute"));
-const Test = lazy( () => import("components/Test"));
+const Test = lazy( () => import("routers/TestRoute"));
 
 
 function MainAppRoutes(props) {

@@ -4,7 +4,7 @@ import Meta from "antd/lib/card/Meta";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { deveiceList, icon } from "database/Deveices/DeveicesConfig";
-import "./DetailRoom.css";
+import "./DetailRoomTest.css";
 
 import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import {
@@ -38,7 +38,7 @@ const contentStyle = {
   borderRadius: 15,
   // background: "#364d79",
 };
-function DetailRoom(props) {
+function DetailRoomTest(props) {
   const roomId = useParams().id;
   const token = localStorage.getItem("token");
   const [lights, setLights] = useState([]);
@@ -46,6 +46,7 @@ function DetailRoom(props) {
   const [humidity, setHumidity] = useState();
   const [temperature, setTemperature] = useState();
   const [door, setDoor] = useState();
+  const [test, setTest] = useState({status: false, id: ''})
 
   useEffect(() => {
     Axios.get(`/rooms/${roomId}`, {
@@ -269,6 +270,7 @@ function DetailRoom(props) {
                       />
                     }
                   >
+                    <div>
                     <Switch
                       checkedChildren="on"
                       unCheckedChildren="off"
@@ -277,9 +279,20 @@ function DetailRoom(props) {
                         onChange(item.id, checked, event)
                       }
                     />
+                    <Switch
+                      checkedChildren="test"
+                      unCheckedChildren="stop"
+                      checked={(item.id === test.id && test.status) ? true : false}
+                      onChange={(checked, event) =>
+                        setTest({status: !test.status, id: item.id})
+                      }
+                    />
+                    </div>
+                   
                     <Meta title={item.name} />
                   </Card>
                 </Col>
+                
               );
             })}
           </Row>
@@ -484,4 +497,4 @@ function DetailRoom(props) {
   );
 }
 
-export default DetailRoom;
+export default DetailRoomTest;
