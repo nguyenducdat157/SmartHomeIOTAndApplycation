@@ -129,6 +129,8 @@ function DetailRoomTest(props) {
   const [humidity, setHumidity] = useState();
   const [temperature, setTemperature] = useState();
   const [door, setDoor] = useState();
+  const [fakeApi, setFakeApi] = useState(false);
+  const [isGetApi, setIsGetApi] = useState(false);
 
   useEffect(() => {
     Axios.get(`/rooms/${roomId}`, {
@@ -148,12 +150,13 @@ function DetailRoomTest(props) {
       setLights(light);
     });
   }, []);
+
   useEffect(() => {
     Axios.get('/api/sensor', { headers: { Authorization: token } }).then((res) => {
       setHumidity(res.data.humidityAir);
       setTemperature(res.data.temperature);
     });
-  }, []);
+  }, [isGetApi]);
 
   const onChange = (id, checked, event) => {
     let status = 'off';
@@ -205,6 +208,25 @@ function DetailRoomTest(props) {
         });
       });
   };
+
+  const handleFakeApiSensor = () => {
+    Axios.post('/api/sensor/push-data').then((res) => {
+      console.log('res: ', res);
+      if (res.status === 200) {
+        setIsGetApi(!isGetApi);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (fakeApi) {
+      const loop = setInterval(() => {
+        handleFakeApiSensor();
+        setIsGetApi(!isGetApi);
+      }, 5000);
+      return () => clearInterval(loop);
+    }
+  }, [fakeApi, isGetApi]);
 
   const handleLock = () => {
     let status = door.status;
@@ -378,6 +400,17 @@ function DetailRoomTest(props) {
                 />
               )}
               {/* </Card> */}
+            </Col>
+            <Col span={8} style={{ position: 'relative' }}>
+              <Switch
+                checkedChildren="on"
+                unCheckedChildren="off"
+                checked={fakeApi ? true : false}
+                onChange={(checked, event) => {
+                  setFakeApi(!fakeApi);
+                  handleFakeApiSensor();
+                }}
+              />
             </Col>
             <Col span={8} style={{ position: 'relative' }}>
               {door === undefined ? (

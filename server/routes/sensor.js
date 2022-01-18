@@ -95,4 +95,20 @@ router.post('/getdata', async (req, res) => {
     }
 });
 
+
+router.post('/push-data', async (req, res) => {
+    try {
+        const humidityAir = Math.floor(Math.random() * (100 - 80 + 1) + 80);
+        const temperature = Math.floor(Math.random() * (30 - 15 + 1) + 15);
+        const _sensor = new Sensor({
+            humidityAir: humidityAir,
+            temperature: temperature
+        })
+        const result = await _sensor.save();
+        return res.status(200).json({data: result})
+    } catch (error) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
 module.exports = router;
