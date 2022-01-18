@@ -401,10 +401,11 @@ function DetailRoomTest(props) {
               )}
               {/* </Card> */}
             </Col>
-            <Col span={8} style={{ position: 'relative' }}>
+            <Col span={8} style={{display: 'flex', alignItems: 'center'}}>
               <Switch
-                checkedChildren="on"
-                unCheckedChildren="off"
+                style={{margin: 'auto'}}
+                checkedChildren="test"
+                unCheckedChildren="stop"
                 checked={fakeApi ? true : false}
                 onChange={(checked, event) => {
                   setFakeApi(!fakeApi);
